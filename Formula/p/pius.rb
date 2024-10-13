@@ -15,7 +15,7 @@ class Pius < Formula
   end
 
   depends_on "gnupg"
-  depends_on "python@3.12"
+  depends_on "python@3.13"
 
   def install
     # Replace hardcoded gpg path (WONTFIX)
