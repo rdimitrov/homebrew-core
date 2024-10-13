@@ -39,4 +39,56 @@ class T1lib < Formula
     system "make", "install"
     share.install "Fonts" => "fonts"
   end
+
+  test do
+    (testpath/"test.c").write <<~EOS
+      #include <stdio.h>
+      #include <stdlib.h>
+      #include <t1lib.h>
+
+      int main( void)
+      {
+        GLYPH *glyph;
+        int i;
+        T1_SetBitmapPad(16);
+
+        if ((T1_InitLib(NO_LOGFILE)==NULL)){
+          fprintf(stderr, "Initialization of t1lib failed\\n");
+          return EXIT_FAILURE;
+        }
+
+        for( i=0; i<T1_GetNoFonts(); i++){
+          printf("FontID=%d, Font=%s\\n", i, T1_GetFontFilePath(i));
+          printf("FontID=%d, Metrics=%s\\n", i, T1_GetAfmFilePath(i));
+          glyph = T1_SetString( i, "Test", 0, 0, T1_KERNING, 25.0, NULL);
+          T1_DumpGlyph(glyph);
+        }
+
+        T1_CloseLib();
+        return EXIT_SUCCESS;
+      }
+    EOS
+
+    system ENV.cc, "test.c", "-I#{include}", "-L#{lib}", "-lt1", "-o", "test"
+
+    testpath.install_symlink Formula["t1lib"].opt_share/"fonts/afm/bchr.afm"
+    testpath.install_symlink Formula["t1lib"].opt_share/"fonts/type1/bchr.pfb"
+    (testpath/"FontDataBase").write "1\nbchr.afm\n"
+    (testpath/"t1lib.config").write <<~EOS
+      FONTDATABASE=./FontDataBase
+      ENCODING=.
+      AFM=.
+      TYPE1=.
+    EOS
+
+    expected_output = <<~EOS
+      FontID=0, Font=./bchr.pfb
+      FontID=0, Metrics=./bchr.afm
+      Dataformat: T1_bit=0, T1_byte=0, T1_wordsize=16, T1_pad=16
+    EOS
+
+    with_env(T1LIB_CONFIG: testpath/"t1lib.config") do
+      assert_equal expected_output, shell_output("./test")
+    end
+  end
 end
