@@ -25,7 +25,7 @@ class Zurl < Formula
 
   depends_on "pkg-config" => :build
   depends_on "cython" => :test # use brew cython as building it in test can cause time out
-  depends_on "python@3.12" => :test
+  depends_on "python@3.13" => :test
   depends_on "qt"
   depends_on "zeromq"
 
@@ -46,13 +46,13 @@ class Zurl < Formula
 
   test do
     resource "packaging" do
-      url "https://files.pythonhosted.org/packages/fb/2b/9b9c33ffed44ee921d0967086d653047286054117d584f1b1a7c22ceaf7b/packaging-23.2.tar.gz"
-      sha256 "048fb0e9405036518eaaf48a55953c750c11e1a1b68e0dd1a9d62ed0c092cfc5"
+      url "https://files.pythonhosted.org/packages/51/65/50db4dda066951078f0a96cf12f4b9ada6e4b811516bf0262c0f4f7064d4/packaging-24.1.tar.gz"
+      sha256 "026ed72c8ed3fcce5bf8950572258698927fd1dbda10a5e981cdf0ac37f4f002"
     end
 
     resource "pyzmq" do
-      url "https://files.pythonhosted.org/packages/3a/33/1a3683fc9a4bd64d8ccc0290da75c8f042184a1a49c146d28398414d3341/pyzmq-25.1.2.tar.gz"
-      sha256 "93f1aa311e8bb912e34f004cf186407a4e90eec4f0ecc0efd26056bf7eda0226"
+      url "https://files.pythonhosted.org/packages/fd/05/bed626b9f7bb2322cdbbf7b4bd8f54b1b617b0d2ab2d3547d6e39428a48e/pyzmq-26.2.0.tar.gz"
+      sha256 "070672c258581c8e4f640b5159297580a9974b026043bd4ab0470be9ed324f1f"
     end
 
     resource "setuptools" do
@@ -60,7 +60,7 @@ class Zurl < Formula
       sha256 "5c0806c7d9af348e6dd3777b4f4dbb42c7ad85b190104837488eab9a7c945cf8"
     end
 
-    python3 = "python3.12"
+    python3 = "python3.13"
 
     conffile = testpath/"zurl.conf"
     ipcfile = testpath/"zurl-req"
