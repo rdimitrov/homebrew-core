@@ -1,9 +1,8 @@
 class Duckscript < Formula
   desc "Simple, extendable and embeddable scripting language"
   homepage "https://sagiegurari.github.io/duckscript"
-  url "https://github.com/sagiegurari/duckscript/archive/refs/tags/v0.9.4-01.tar.gz"
-  version "0.9.4"
-  sha256 "f341b81724e2f6bc2ea824155f5aea38a17d3c9a79d274aa2aba96c3890695d1"
+  url "https://github.com/sagiegurari/duckscript/archive/refs/tags/0.11.0.tar.gz"
+  sha256 "f5e228b5157ec2c0201552aae9eb15ac52e599d53c9668b6c7113a9925022f27"
   license "Apache-2.0"
   head "https://github.com/sagiegurari/duckscript.git", branch: "master"
 
@@ -36,6 +35,6 @@ class Duckscript < Formula
       echo The out variable holds the value: ${out}
     EOS
     output = shell_output("#{bin}/duck hello.ds")
-    assert_match "The out variable holds the value: Hello World", output
+    assert_match "Theoutvariableholdsthevalue:Hello World", output
   end
 end
